@@ -54,7 +54,7 @@ class ReportController < ApplicationController
   def stats_for_user(user user_sessions)
     first_name: user.first_name,
     last_name: user.last_name,
-    sessions_count: user_sessions.count
+    sessions_count: user_sessions.count,
     total_time: "#{user_sessions.map(&:duration).sum} min.",
     longest_session: "#{user_sessions.map(&:duration).max} min.",
     browsers: user_sessions.map(&:browser).map(&:upcase).sort.uniq,
