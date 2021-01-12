@@ -4,8 +4,8 @@ require 'net/http'
 require 'pry'
 
 class FeedbackLoop
-  THRESHOLD_METRIC_IN_SECONDS = 4
-  REPEAT = 3
+  THRESHOLD_METRIC_IN_SECONDS = 4 # see Web performance optimizations stats - https://wpostats.com
+  REPEATS = 3
   APPROX_BUDGET = 0.15
   DATE_FOR_TEST_RESPONSES = '2021-12-01'.freeze
 
@@ -30,7 +30,9 @@ class FeedbackLoop
       start = Time.now
       get_response(DATE_FOR_TEST_RESPONSES)
       finish = Time.now
+      total_time += finish - start
     end
+    total_time / REPEATS
   end
 
   # update etalon with
@@ -59,13 +61,14 @@ class FeedbackLoop
   end
 
   def check_approx_budget(current_metric)
-      if current_metric < APPROX_BUDGET
-        puts 10 * '*' + "Result is the gaps of APPROX_BUDGET: #{current_metric} < #{APPROX_BUDGET}" + 10 * '*'
-      else
-        raise 10 * '*' + "Result is not in APPROX_BUDGET yet: #{current_metric} > #{APPROX_BUDGET}" + 10 * '*'
-      end
+    if current_metric < APPROX_BUDGET
+      puts 10 * '*' + "Result is the gaps of APPROX_BUDGET: #{current_metric} < #{APPROX_BUDGET}" + 10 * '*'
+    else
+      raise 10 * '*' + "Result is not in APPROX_BUDGET yet: #{current_metric} > #{APPROX_BUDGET}" + 10 * '*'
     end
   end
 
   def check_final_budget; end
+
+  FeedbackLoop.new.call
 end

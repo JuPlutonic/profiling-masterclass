@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Apt install:
 
-Things you may want to cover:
+* sudo apt install apache2-utils
 
-* Ruby version
+Run apache benchmark:
 
-* System dependencies
+* ab -s 128 -n 3 http://localhost:3000/report\?start_date\=2021-01-12\&finish_date\=2021-01-12
 
-* Configuration
+* try 2.. 3.. 4.. days...
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* turn off turbo-boost and energo savings...
