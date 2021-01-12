@@ -36,6 +36,8 @@ group :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
   gem 'spring'
 end
 
