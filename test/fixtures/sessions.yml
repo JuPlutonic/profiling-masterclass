@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  browser: MyString
+  duration: 1
+  date: 2021-01-12
+  country: MyString
+
+two:
+  user: two
+  browser: MyString
+  duration: 1
+  date: 2021-01-12
+  country: MyString
