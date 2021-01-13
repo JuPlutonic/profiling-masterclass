@@ -1,8 +1,9 @@
-# Feedback-loop script
+# frozen_string_literal: true
 
 require 'net/http'
 require 'pry'
 
+# Profiling/testing for feedback-loop speed-up
 class FeedbackLoop
   THRESHOLD_METRIC_IN_SECONDS = 4 # see Web performance optimizations stats - https://wpostats.com
   REPEATS = 3
@@ -39,9 +40,9 @@ class FeedbackLoop
   # http 'localhost:3000/report?start_date=2020=07-01&finish_date=2021-12-01' > lib/etalon.html
   def check_correctness
     response = get_response(DATE_FOR_TEST_RESPONSES)
-    result_body = response.body[/<body?(.*?)<\/body>/m,1]
+    result_body = response.body[/<body?(.*?)<\/body>/m, 1]
     etalon_response = File.read('./lib/etalon.html')
-    etalon_body = etalon_response[/<body?(.*?)<\/body>/m,1]
+    etalon_body = etalon_response[/<body?(.*?)<\/body>/m, 1]
 
     if result_body == etalon_body
       puts 20 * '*' + 'Correctness test passed' + 20 * '*'
