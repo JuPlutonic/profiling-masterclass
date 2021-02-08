@@ -91,10 +91,22 @@ class ReportController < ApplicationController
       sessions_count: user_sessions.count,
       total_time: "#{user_sessions.map(&:duration).sum} min.",
       longest_session: "#{user_sessions.map(&:duration).max} min.",
-      browsers: user_sessions.map(&:browser).map(&:upcase).sort.uniq,
-      used_ie: user_sessions.map(&:browser).map(&:upcase).any? { |browser| browser =~ /INTERNET_EXPLORER/ },
-      used_only_chrome: user_sessions.map(&:browser).map(&:upcase).all? { |browser| browser =~ /CHOME/ },
+      browsers: stats_browsers_part(user_sessions),
+      used_ie: stats_browsers_part(user_sessions, used: 'ie'),
+      used_only_chrome: stats_browsers_part(user_sessions, used: 'chrome'),
       dates: user_sessions.map(&:date).map(&:to_s).sort.uniq
     }
+  end
+
+  def stats_browsers_part(user_sessions, used: 'all')
+    get_browsers_list = user_sessions.map(&:browser).map(&:upcase)
+    case used
+    when 'chrome'
+      get_browsers_list.all? { |browser| browser =~ /CHOME/ }
+    when 'ie'
+      get_browsers_list.any? { |browser| browser =~ /INTERNET_EXPLORER/ }
+    else
+      get_browsers_list.sort.uniq
+    end
   end
 end
