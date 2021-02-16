@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
 require 'json'
 require_relative '../lib/db_file_io.rb'
 require File.expand_path('../config/environment', __dir__)
