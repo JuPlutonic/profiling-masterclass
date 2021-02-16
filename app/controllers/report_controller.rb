@@ -38,12 +38,9 @@ class ReportController < ApplicationController
     @total_sessions = sessions.count
 
     # users_array = select_valid_users(users)
-    # sessions_array = sessions.to_a
     @users = []
 
-    # users_array.each do |user|
     load_users(users).each do |user|
-      # user_sessions = select_sessions_of_user(user, sessions_array)
       user_sessions = select_sessions_of_user(user, load_sessions(sessions))
       @users += [stats_for_user(user, user_sessions)]
     end
