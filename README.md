@@ -1,25 +1,29 @@
-# README
+###### Benchmark with minitest:
+```rails test```
 
-Apt install:
+###### Benchmark with rspec + it also runs report builder itself
+```rspec```
+
+###### Apt install:
 
 * sudo apt install apache2-utils
 
-Run apache benchmark:
+###### Run apache benchmark:
 
-* ab -s 128 -n 3 http://localhost:3000/report\?start_date\=2021-01-12\&finish_date\=2021-01-12
+* ab -s 128 -n 3 http://localhost:3000/report\?start_date\=2015-01-12\&finish_date\=2021-02-17
 
 * try 2.. 3.. 4.. days...
 
-* turn off turbo-boost and energo savings...
+* turn off turbo-boost and energy saving mode...
 
-Profile with stackprof:
+###### Profile with stackprof:
 
-* add to url http://localhost:3000/report?start_date=2021-01-12&finish_date=2021-01-12
+* add to url http://localhost:3000/report?start_date=2015-01-12&finish_date=2021-02-17
    &profile=json
 
 * open formed json-file with https://www.speedscope.app/ to see so-called "Flamegraph"
 
-Other profiling instruments:
+###### Other profiling instruments:
 
 * gem memory profile
 
