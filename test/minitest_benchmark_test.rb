@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
-require_relative '../lib/db_file_io.rb'
-require File.expand_path('../config/environment', __dir__)
-## the easy and explicit way to run all your tests:
+require_relative '../lib/report_builder_slow'
 require 'minitest/autorun'
 
 class TestMe < Minitest::Test

@@ -1,8 +1,8 @@
 ###### Benchmark with minitest:
 ```rails test```
 
-###### Benchmark with rspec + it also runs report builder itself
-```rspec```
+###### Benchmark with rspec
+```rspec -f d -c```
 
 ###### Apt install:
 

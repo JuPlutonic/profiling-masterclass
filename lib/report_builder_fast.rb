@@ -3,14 +3,10 @@
 require 'active_support/core_ext/hash/indifferent_access'
 
 class ReportBuilderFast
-  MEMORY_LIMIT_MB = 70
-
-  #
   # +filename+ or env DATA_FILE
   # +report_filename+
   # +disable_gc+ - disable garbage collector
-
-  # def call(..., disable_gc: true)
+  # def call(..., disable_gc: true); end
   def call(filename = 'data_18.txt', report_filename)
     puts 'Start work'
     # GC.disable if disable_gc

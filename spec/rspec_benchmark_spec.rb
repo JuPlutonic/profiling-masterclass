@@ -2,13 +2,12 @@
 
 require 'rails_helper'
 require 'json'
-require_relative '../lib/db_file_io.rb'
-require File.expand_path('../config/environment', __dir__)
-require 'rspec-benchmark'
+require_relative '../lib/report_builder_slow'
+# require 'rspec-benchmark'
 
-RSpec.configure do |config|
-  config.include RSpec::Benchmark::Matchers
-end
+# RSpec.configure do |config|
+#   config.include RSpec::Benchmark::Matchers
+# end
 
 describe ReportBuilderSlow do
   before do
@@ -65,11 +64,6 @@ describe ReportBuilderSlow do
 
     #   it 'meets memory limit' do
     #     expect{generate_report}.to perform_allocation({String => 3_100_000, Array => 1_800_000}).bytes
-    #   end
-    #   it 'fits memory usage metric (in megabytes)' do
-    #     call(filename, 'report.json')
-    #     ram_used = `ps -o rss= -p #{Process.pid}`.to_i / 1_024
-    #     expect(ram_used).to be < MEMORY_LIMIT_MB
     #   end
     # end
   end

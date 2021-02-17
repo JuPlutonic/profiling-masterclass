@@ -8,7 +8,7 @@ class FeedbackLoop
   THRESHOLD_METRIC_IN_SECONDS = 4 # see Web performance optimizations stats - https://wpostats.com
   REPEATS = 3
   APPROX_BUDGET = 0.15
-  DATE_FOR_TEST_RESPONSES = '2021-12-01'.freeze
+  DATE_FOR_TEST_RESPONSES = '2021-12-12'.freeze
 
   def call
     check_correctness
@@ -20,7 +20,7 @@ class FeedbackLoop
   private
 
   def get_response(finish_date)
-    uri = URI("http://localhost:3000/report?start_date=2020=07-01&finish_date=#{finish_date}")
+    uri = URI("http://localhost:3000/report?start_date=2015-07-01&finish_date=#{finish_date}")
     response = Net::HTTP.get_response(uri)
   end
 
@@ -37,7 +37,7 @@ class FeedbackLoop
   end
 
   # update etalon with
-  # http 'localhost:3000/report?start_date=2020=07-01&finish_date=2021-12-01' > lib/etalon.html
+  # http 'localhost:3000/report?start_date=2015-07-01&finish_date=2021-12-12' > lib/etalon.html
   def check_correctness
     response = get_response(DATE_FOR_TEST_RESPONSES)
     result_body = response.body[/<body?(.*?)<\/body>/m, 1]
