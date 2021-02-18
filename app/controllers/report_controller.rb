@@ -2,6 +2,7 @@
 
 # Controller for report
 class ReportController < ApplicationController
+  before_action :accept_all_params
   # around_action :profile_with_stackprof, only: :report
 
   # def profile_with_stackprof(&block)
@@ -14,8 +15,8 @@ class ReportController < ApplicationController
   # end
 
   def report
-    @start_date = Date.parse params.require(:start_date)
-    @finish_date = Date.parse params.require(:finish_date)
+    @start_date = Date.parse(params.fetch(:start_date, false) || '2015-01-01')
+    @finish_date = Date.parse(params.fetch(:finish_date, false) || '2021-12-12')
 
     sessions_by_dates = Session.where(
       'date >= :start_date AND date <= :finish_date',
@@ -47,6 +48,10 @@ class ReportController < ApplicationController
   end
 
   private
+
+  def accept_all_params
+    params.permit!
+  end
 
   def unique_browsers_count(sessions)
     sessions.map(&:browser).map(&:upcase).uniq.count
