@@ -27,11 +27,18 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+# A complete suite of testing facilities supporting TDD, BDD, mocking, and benchmarking (https://github.com/seattlerb/minitest)
 # gem 'minitest'
+# RSpec for Rails (https://github.com/rspec/rspec-rails)
 gem 'rspec-rails'
+# Performance testing matchers for RSpec (https://github.com/piotrmurach/rspec-benchmark)
 gem 'rspec-benchmark'
-# A sampling call-stack profiler for ruby 2.2+
+# Fast Ruby profiler (https://github.com/ruby-prof/ruby-prof)
+gem 'ruby-prof'
+# A sampling call-stack profiler for ruby 2.2+ (http://github.com/tmm1/stackprof)
 gem 'stackprof'
+# ActiveModel validation for email. Including MX lookup and disposable email blacklist (https://github.com/micke/valid_email2)
+gem 'valid_email2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -39,15 +46,23 @@ group :development, :test do
 end
 
 group :development do
+  # Listen to file modifications (https://github.com/guard/listen)
   gem 'listen', '~> 3.3'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # Use Pry as your rails console (https://github.com/rweng/pry-rails)
   gem 'pry-rails'
+  # Walk the stack in a Pry session (https://github.com/pry/pry-stack_explorer)
   gem 'pry-stack_explorer'
+  # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
   gem 'pry-byebug'
+  # Automatic Ruby code style checking tool. (https://github.com/rubocop-hq/rubocop)
   gem 'rubocop', require: false
+  # Automatic performance checking tool for Ruby code. (https://github.com/rubocop-hq/rubocop-performance)
   gem 'rubocop-performance', require: false
+  # Automatic Rails code style checking tool. (https://github.com/rubocop-hq/rubocop-rails)
   gem 'rubocop-rails', require: false
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  # A debugging tool for your Ruby on Rails applications. (https://github.com/rails/web-console)
   gem 'web-console'
 end
 
