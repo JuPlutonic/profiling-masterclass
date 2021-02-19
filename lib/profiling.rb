@@ -42,30 +42,33 @@ class FeedbackLoop
     response = get_response(DATE_FOR_TEST_RESPONSES)
     result_body = response.body[/<body?(.*?)<\/body>/m, 1]
     etalon_response = File.read('./lib/etalon.html')
+    # w/o CSRF token:
     etalon_body = etalon_response[/<body?(.*?)<\/body>/m, 1]
 
     if result_body == etalon_body
-      puts 20 * '*' + 'Correctness test passed' + 20 * '*'
+      puts '*' * 20 + 'Correctness test passed' + '*' * 20
     else
-      puts 20 * '*' + 'Correctness test failed' + 20 * '*'
+      puts '*' * 20 + 'Correctness test failed' + '*' * 20
     end
   end
 
   def protect_from_degradation
     calculate_metric.tap do |current_metric|
+      puts
       if current_metric > THRESHOLD_METRIC_IN_SECONDS
-        raise 10 * '*' + "Test on degradation: result worse than metric: #{current_metric} > #{THRESHOLD_METRIC_IN_SECONDS}" + 10 * '*'
+        raise '*' * 10 + "Test on degradation: result worse than metric: #{current_metric} > #{THRESHOLD_METRIC_IN_SECONDS}" + '*' * 10
       else
-        puts 10 * '*' + "Test has passed degradation test: #{current_metric} < #{THRESHOLD_METRIC_IN_SECONDS}" + 10 * '*'
+        puts '*' * 10 + "Test has passed degradation test: #{current_metric} < #{THRESHOLD_METRIC_IN_SECONDS}" + '*' * 10
       end
     end
   end
 
   def check_approx_budget(current_metric)
+    puts
     if current_metric < APPROX_BUDGET
-      puts 10 * '*' + "Result is the gaps of APPROX_BUDGET: #{current_metric} < #{APPROX_BUDGET}" + 10 * '*'
+      puts '*' * 10 + "Result is the gaps of APPROX_BUDGET: #{current_metric} < #{APPROX_BUDGET}" + '*' * 10
     else
-      raise 10 * '*' + "Result is not in APPROX_BUDGET yet: #{current_metric} > #{APPROX_BUDGET}" + 10 * '*'
+      raise '*' * 10 + "Result is not in APPROX_BUDGET yet: #{current_metric} > #{APPROX_BUDGET}" + '*' * 10
     end
   end
 

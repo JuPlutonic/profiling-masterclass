@@ -4,6 +4,13 @@
 ###### Benchmark with rspec
 ```rspec -f d -c```
 
+##### Profiling after program changes
+
+First: update etalon with
+```http 'localhost:3000/report?start_date=2015-07-01&finish_date=2021-12-12' > lib/etalon.html```
+
+Second: run `ruby lib/profiling.rb` to see did those changes were a source of degradation.
+
 ###### Apt install:
 
 * sudo apt install apache2-utils

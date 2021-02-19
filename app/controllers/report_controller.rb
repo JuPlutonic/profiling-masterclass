@@ -15,7 +15,7 @@ class ReportController < ApplicationController
   # end
 
   def report
-    @start_date = Date.parse(params.fetch(:start_date, false) || '2015-01-01')
+    @start_date = Date.parse(params.fetch(:start_date, false) || '2015-07-01')
     @finish_date = Date.parse(params.fetch(:finish_date, false) || '2021-12-12')
 
     sessions_by_dates = Session.where(
