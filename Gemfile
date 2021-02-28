@@ -27,8 +27,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
-# A complete suite of testing facilities supporting TDD, BDD, mocking, and benchmarking (https://github.com/seattlerb/minitest)
-# gem 'minitest'
+# Easily generate fake data (https://github.com/faker-ruby/faker)
+gem "faker", "~> 2.16"
 # RSpec for Rails (https://github.com/rspec/rspec-rails)
 gem 'rspec-rails'
 # Performance testing matchers for RSpec (https://github.com/piotrmurach/rspec-benchmark)

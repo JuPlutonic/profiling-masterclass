@@ -54,7 +54,6 @@ class ReportBuilderSlow
       attributes = user
       user_sessions = select_session_for_user(sessions, user)
       user_object = User.new(attributes: { **attributes }, sessions: user_sessions)
-      User.save
       users_objects = users_objects + [user_object]
     end
 
