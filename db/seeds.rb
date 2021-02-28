@@ -52,9 +52,9 @@ def load_seed
       collect_sessions << form_session
     end
     collect_sessions = collect_sessions.first if collect_sessions.count == 1
-    u = User.new(attributes: form_user, sessions: collect_sessions)
-    u.attributes.merge!(u.attributes[:attributes])
-    u.attributes.except!(:attributes)
+    u = User.new(user_attribs: form_user, sessions: collect_sessions)
+    # u.attributes.merge!(u.attributes[:attributes])
+    # u.attributes.except!(:attributes)
     u.save
   end
 end

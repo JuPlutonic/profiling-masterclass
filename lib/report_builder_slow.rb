@@ -50,10 +50,12 @@ class ReportBuilderSlow
     users_objects = []
     report['usersStats'] = {}
 
+    require 'debug'
     users.each do |user|
       attributes = user
       user_sessions = select_session_for_user(sessions, user)
-      user_object = User.new(attributes: { **attributes }, sessions: user_sessions)
+      # user_object = User.new(attributes: { **attributes }, sessions: user_sessions)
+      user_object = User.new(user_attribs: { **attributes }, sessions: user_sessions)
       users_objects = users_objects + [user_object]
     end
 
@@ -100,7 +102,7 @@ class ReportBuilderSlow
 
   def collect_stats_from_users(report, users_objects, &block)
     users_objects.each do |user|
-      user_key = "#{user.attributes[:attributes][:first_name]}" + ' ' + "#{user.attributes[:attributes][:last_name]}"
+      user_key = "#{user.attributes[:user_attribs][:first_name]}" + ' ' + "#{user.attributes[:user_attribs][:last_name]}"
 
       report['usersStats'][user_key] ||= {}
       report['usersStats'][user_key] = report['usersStats'][user_key].merge(block.call(user))
