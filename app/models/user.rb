@@ -1,8 +1,9 @@
 class User < ApplicationRecord
-  attr_reader :user_attribs, :sessions
+  attr_reader :attributes, :sessions
+  has_many :sessions, dependent: :delete_all
 
-  def initialize(user_attribs = {}, sessions = {})
-    @user_attribs = user_attribs[:user_attribs]
-    @sessions = user_attribs[:sessions]
+  def initialize(attributes:, sessions:)
+    @attributes = attributes
+    @sessions = sessions
   end
 end

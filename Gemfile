@@ -1,7 +1,6 @@
-source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.0.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.1'
@@ -27,6 +26,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+# DSL for declaring params and options of the initializer (https://dry-rb.org/gems/dry-initializer)
+gem 'dry-initializer-rails'
 # Easily generate fake data (https://github.com/faker-ruby/faker)
 gem "faker", "~> 2.16"
 # RSpec for Rails (https://github.com/rspec/rspec-rails)

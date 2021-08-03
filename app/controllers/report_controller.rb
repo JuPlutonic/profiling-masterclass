@@ -28,11 +28,11 @@ class ReportController < ApplicationController
 
     users =
       User
-        .where('id in (:users_ids)', users_ids: sessions_by_dates.pluck(:user_id))
+        .where(id: sessions_by_dates.pluck(:user_id))
         .order(:id)
         .limit(30)
 
-    sessions = sessions_by_dates.where('user_id in (:users_ids)', users_ids: users.pluck(:id))
+    sessions = sessions_by_dates.where(user_id: users.pluck(:id))
     @unique_browsers_count = unique_browsers_count(sessions)
 
     @total_users = users.count

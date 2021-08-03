@@ -67,32 +67,32 @@ class ReportBuilderFast
 
     # Собираем количество времени по пользователям
     collect_stats_from_users(report, users_objects) do |user|
-      { 'totalTime': user.attributes[:sessions].collect { |s| s[:time] }.map { |t| t.to_i }.sum.to_s + ' min.' }
+      { 'totalTime': user.attributes[:sessions].pluck(:time).map(&:to_i).sum.to_s + ' min.' }
     end
 
     # Выбираем самую длинную сессию пользователя
     collect_stats_from_users(report, users_objects) do |user|
-      { 'longestSession': user.attributes[:sessions].collect { |s| s[:time] }.map { |t| t.to_i }.max.to_s + ' min.' }
+      { 'longestSession': user.attributes[:sessions].pluck(:time).map(&:to_i).max.to_s + ' min.' }
     end
 
     # Браузеры пользователя через запятую
     collect_stats_from_users(report, users_objects) do |user|
-      { 'browsers': user.attributes[:sessions].collect { |s| s[:browser] }.map { |b| b.upcase }.sort.join(', ') }
+      { 'browsers': user.attributes[:sessions].pluck(:browser).map(&:upcase).sort.join(', ') }
     end
 
     # Хоть раз использовал IE?
     collect_stats_from_users(report, users_objects) do |user|
-      { 'usedIE': user.attributes[:sessions].collect { |s| s[:browser] }.any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
+      { 'usedIE': user.attributes[:sessions].pluck(:browser).any? { |b| b.upcase =~ /INTERNET EXPLORER/ } }
     end
 
     # Всегда использовал только Chrome?
     collect_stats_from_users(report, users_objects) do |user|
-      { 'alwaysUsedChrome': user.attributes[:sessions].collect { |s| s[:browser] }.all? { |b| b.upcase =~ /CHROME/ } }
+      { 'alwaysUsedChrome': user.attributes[:sessions].pluck(:browser).all? { |b| b.upcase =~ /CHROME/ } }
     end
 
     # Даты сессий через запятую в обратном порядке в формате iso8601
     collect_stats_from_users(report, users_objects) do |user|
-      { 'dates': user.attributes[:sessions].collect { |s| s[:date] }.map { |d| Date.parse(d) }.sort.reverse.map { |d| d.iso8601 } }
+      { 'dates': user.attributes[:sessions].pluck(:date).map { |d| Date.parse(d) }.sort.reverse.map(&:iso8601) }
     end
 
     File.write("payloads/#{report_filename}", "#{report.to_json}\n")
