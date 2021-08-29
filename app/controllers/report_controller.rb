@@ -83,7 +83,7 @@ class ReportController < ApplicationController
 
   def select_sessions_of_user(user, sessions_array)
     # sessions_array.select { |session| session.user_id == user.id }
-    @sessions_of_user ||= sessions_array.group_by(user_id)
+    @sessions_of_user ||= sessions_array.group_by { |b| b.user_id }
     @sessions_of_user[user.id]
   end
 

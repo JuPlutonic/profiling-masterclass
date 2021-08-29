@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/hash/indifferent_access'
-require 'faker'
+require 'active_support/hash_with_indifferent_access'
+# require 'faker'
 
 class CreateTestUsers
   AGE_OF_MAJORITY = 18
@@ -14,11 +14,12 @@ class CreateTestUsers
 
   def find_or_create
     users_create_or_update.each do |item|
-      u = User.find_or_initialize_by(email: item[:email])
+      u = User.find_or_initialize_by({email: item[:email]})
       u.first_name = item[:first_name]
       u.last_name = item[:last_name]
       u.age = item[:age]
       u.sessions = item[:sessions]
+      u.save!
     end
   end
 
@@ -29,33 +30,33 @@ class CreateTestUsers
         first_name: 'Leida',
         email: 'n.eliseeva@digital.gov.ru',
         age: 0,
-        sessions: [{ browser: 'Safari 29', duration: 87, date: '2016-10-23', country: 'se' },
-                   { browser: 'Firefox 12', duration: 118, date: '2017-02-27', country: 'se' },
-                   { browser: 'Internet Explorer 28', duration: 31, date: '2017-03-28', country: 'se' },
-                   { browser: 'Internet Explorer 28', duration: 109, date: '2016-09-15', country: 'se' },
-                   { browser: 'Safari 39', duration: 104, date: '2017-09-27', country: 'se' },
-                   { browser: 'Internet Explorer 35', duration: 6, date: '2016-09-01', country: 'se' }]
+        sessions: [Session.new( { browser: 'Safari 29', duration: 87, date: '2016-10-23', country: 'se' } ),
+                   Session.new( { browser: 'Firefox 12', duration: 118, date: '2017-02-27', country: 'se' } ),
+                   Session.new( { browser: 'Internet Explorer 28', duration: 31, date: '2017-03-28', country: 'se' } ),
+                   Session.new( { browser: 'Internet Explorer 28', duration: 109, date: '2016-09-15', country: 'se' } ),
+                   Session.new( { browser: 'Safari 39', duration: 104, date: '2017-09-27', country: 'se' } ),
+                   Session.new( { browser: 'Internet Explorer 35', duration: 6, date: '2016-09-01', country: 'se' } )]
       },
       {
         last_name: 'Katrina',
         first_name: 'Palmer',
         email: 'a.sadykova@digital.gov.ru',
         age: 65,
-        sessions: [{ browser: 'Safari 17', duration: 12, date: '2016-10-21', country: 'se' },
-                   { browser: 'Firefox 32', duration: 3, date: '2016-12-20', country: 'se' },
-                   { browser: 'Chrome 6', duration: 59, date: '2016-11-11', country: 'se' },
-                   { browser: 'Internet Explorer 10', duration: 28, date: '2017-04-29', country: 'se' },
-                   { browser: 'Chrome 13', duration: 116, date: '2016-12-28', country: 'se' }]
+        sessions: [Session.new( { browser: 'Safari 17', duration: 12, date: '2016-10-21', country: 'se' } ),
+                   Session.new( { browser: 'Firefox 32', duration: 3, date: '2016-12-20', country: 'se' } ),
+                   Session.new( { browser: 'Chrome 6', duration: 59, date: '2016-11-11', country: 'se' } ),
+                   Session.new( { browser: 'Internet Explorer 10', duration: 28, date: '2017-04-29', country: 'se' } ),
+                   Session.new( { browser: 'Chrome 13', duration: 116, date: '2016-12-28', country: 'se' } )]
       },
       {
         last_name: 'Santos',
         first_name: 'Gregory',
         email: 'moscow1@digital.gov.ru',
         age: 86,
-        sessions: [{ browser: 'Chrome 35', duration: 6, date: '2018-09-21', country: 'se' },
-                   { browser: 'Safari 49', duration: 85, date: '2017-05-22', country: 'se' },
-                   { browser: 'Firefox 47', duration: 17, date: '2018-02-02', country: 'se' },
-                   { browser: 'Chrome 20', duration: 84, date: '2016-11-25', country: 'se' }]
+        sessions: [Session.new( { browser: 'Chrome 35', duration: 6, date: '2018-09-21', country: 'se' } ),
+                   Session.new( { browser: 'Safari 49', duration: 85, date: '2017-05-22', country: 'se' } ),
+                   Session.new( { browser: 'Firefox 47', duration: 17, date: '2018-02-02', country: 'se' } ),
+                   Session.new( { browser: 'Chrome 20', duration: 84, date: '2016-11-25', country: 'se' } )]
       }
     ].freeze
   end
@@ -84,20 +85,18 @@ end
 # end
 
 def select_browser
-  value = ['Internet Explorer', 'FireFox', 'Chrome', 'Safari'].sample
+  value = ['Internet Explorer ', 'FireFox ', 'Chrome ', 'Safari '].sample
   case value
-  when 'Internet Explorer'
-    value + ' ' + [*6..11, *20..90].sample.to_s
-  # when 'Microsoft Edge'
-  #   value + ' ' + [*20..90].sample.to_s
-  when 'FireFox'
-    value + ' ' + [*24..87].sample.to_s
-  when 'Chrome'
-    value + ' ' + [*30..89].sample.to_s
-  when 'Safari'
-    value + ' ' + [*6..11].sample.to_s
+  when 'Internet Explorer ';'Safari '
+    value + [*6..11].sample.to_s
+  when 'Microsoft Edge '
+    value + [*20..90].sample.to_s
+  when 'FireFox '
+    value + [*24..90].sample.to_s
+  when 'Chrome '
+    value + [*30..92].sample.to_s
   else
-    value
+    value.strip
   end
 end
 
@@ -109,7 +108,6 @@ end
 #       collect_sessions << form_session
 #     end
 #     collect_sessions = collect_sessions.first if collect_sessions.count == 1
-#     require 'debug'
 #     u = User.new(attributes: form_user, sessions: collect_sessions)
 #     u.attributes.merge!(u.attributes[:attributes])
 #     u.attributes.except!(:attributes)

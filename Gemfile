@@ -1,9 +1,16 @@
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
+  "https://github.com/#{repo_name}.git"
+end
 
 ruby '~> 3.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.1'
+gem 'rails', '~> 6.1.0'
 # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/] (https://github.com/ged/ruby-pg)
 gem 'pg'
 # Use Puma as the app server
@@ -27,7 +34,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # gem 'rack-cors'
 
 # DSL for declaring params and options of the initializer (https://dry-rb.org/gems/dry-initializer)
-gem 'dry-initializer-rails'
+# gem 'dry-initializer-rails'
 # Easily generate fake data (https://github.com/faker-ruby/faker)
 gem "faker", "~> 2.16"
 # RSpec for Rails (https://github.com/rspec/rspec-rails)
@@ -44,6 +51,8 @@ gem 'valid_email2'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # Strategies for cleaning databases.  Can be used to ensure a clean state for testing. (http://github.com/DatabaseCleaner/database_cleaner)
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -55,12 +64,6 @@ group :development do
   gem 'pry-stack_explorer'
   # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
   gem 'pry-byebug'
-  # Automatic Ruby code style checking tool. (https://github.com/rubocop-hq/rubocop)
-  gem 'rubocop', require: false
-  # Automatic performance checking tool for Ruby code. (https://github.com/rubocop-hq/rubocop-performance)
-  gem 'rubocop-performance', require: false
-  # Automatic Rails code style checking tool. (https://github.com/rubocop-hq/rubocop-rails)
-  gem 'rubocop-rails', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   # A debugging tool for your Ruby on Rails applications. (https://github.com/rails/web-console)

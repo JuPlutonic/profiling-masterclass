@@ -50,7 +50,6 @@ class ReportBuilderFast
     users_objects = []
     report['usersStats'] = {}
 
-    require 'debug'
     users.each do |user|
       attributes = user
       user_sessions = select_session_for_user(sessions, user)
