@@ -141,3 +141,6 @@ lib/*.html
 .reek.yml
 .rubocop.yml
 .rubocop_todo.yml
+
+# PigCI
+  /pig-ci

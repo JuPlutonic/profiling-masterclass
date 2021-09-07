@@ -53,6 +53,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Strategies for cleaning databases.  Can be used to ensure a clean state for testing. (http://github.com/DatabaseCleaner/database_cleaner)
   gem 'database_cleaner'
+  # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
+  gem 'pig-ci-rails'
 end
 
 group :development do
