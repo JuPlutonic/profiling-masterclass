@@ -29,7 +29,9 @@ module MasterClass1
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    # # Test it with zeiwerk:check task:
+    # config.eager_load_paths << config.root.join('lib')
+    # #
     config.autoload_paths << config.root.join('lib')
 
     # Only loads a smaller set of middleware suitable for API only apps.

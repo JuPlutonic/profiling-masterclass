@@ -1,0 +1,25 @@
+---
+name: mciapp
+root: ~/optimiz/master_class_1
+pre_window: >
+  promote ~/optimiz/master_class_1/.env.development.local &&
+  rbenv global 3.0.2
+windows:
+  - mci_wrk:
+      layout: main-vertical
+      panes:
+        - org_mci:
+            - nvim +Goyo README.md
+        - vid_mci:
+            - mpv /media/alessio/RubyBackup1/ruby_oth/rb_profiling-steps/profiling_alexey-vasilyev/GMT20200708-154517.mp4
+        - dbg_mci:
+            - rbenv exec bundle exec rails c
+  - mci_app:
+      - overmind connect -s ~/optimiz/master_class_1/tmp/sockets/dev.sock mci_app
+  - wrk:
+      layout: main-vertical
+      panes:
+        - edt_mci:
+            - nvim +NERDTree
+        - log_mci:
+            - tail -f log/development.log

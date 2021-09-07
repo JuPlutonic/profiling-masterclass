@@ -110,6 +110,7 @@ class ReportBuilderSlow
 
   def select_session_for_user(sessions, user)
     sessions.select { |session| session[:user_id] == user[:id] }
+    # sessions.select { |session| session[:user_id] == user[:id] }.each { |x| x[:id] = x.delete(:session_id) }.each { |x| x[:duration] = x.delete(:time) }.each_with_object([]) { |el, o_ary| o_ary << Session.new(el) }
   end
 
   def parse_file_lines(lines)
