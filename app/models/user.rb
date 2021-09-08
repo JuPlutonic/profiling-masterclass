@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  validates :email, 'valid_email_2/email': { strict_mx: true }, on: :create
   # attr_reader :attributes, :sessions
   has_many :sessions, dependent: :delete_all
 

@@ -43,8 +43,6 @@ gem 'rspec-rails'
 gem 'rspec-benchmark'
 # Fast Ruby profiler (https://github.com/ruby-prof/ruby-prof)
 gem 'ruby-prof'
-# A sampling call-stack profiler for ruby 2.2+ (http://github.com/tmm1/stackprof)
-gem 'stackprof'
 # ActiveModel validation for email. Including MX lookup and disposable email blacklist (https://github.com/micke/valid_email2)
 gem 'valid_email2'
 
@@ -55,6 +53,8 @@ group :development, :test do
   gem 'database_cleaner'
   # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
   gem 'pig-ci-rails'
+  # A sampling call-stack profiler for ruby 2.2+ (http://github.com/tmm1/stackprof)
+  gem 'stackprof'
 end
 
 group :development do

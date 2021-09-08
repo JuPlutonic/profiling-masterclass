@@ -2,17 +2,8 @@
 
 # Controller for report
 class ReportController < ApplicationController
+  around_action :profile_with_stackprof, only: :report
   before_action :accept_all_params
-  # around_action :profile_with_stackprof, only: :report
-
-  # def profile_with_stackprof(&block)
-  #   if params[:profile] == 'json'
-  #     profile = StackProf.run(mode: :wall, raw: true, &block)
-  #     File.write('tmp/stackprof.json', JSON.generate(profile))
-  #   else
-  #     block.call
-  #   end
-  # end
 
   def report
     @start_date = Date.parse(params.fetch(:start_date, false) || '2015-07-01')
@@ -38,7 +29,7 @@ class ReportController < ApplicationController
     @total_users = users.count
     @total_sessions = sessions.count
 
-    # users_array = select_valid_users(users)
+    # users_array = select_valid_users(users) # TODO: now it is safe to add it (but seed more users/sessions)
     @users = []
 
     load_users(users).each do |user|
@@ -48,6 +39,14 @@ class ReportController < ApplicationController
   end
 
   private
+
+  # We will use visualization in a browser in flame-graph format https://speedscope.app
+  def profile_with_stackprof(&block)
+    return block.call if params[:profile] != 'json'
+
+    profile = StackProf.run(mode: :wall, raw: true, &block)
+    File.write('tmp/stackprof.json', JSON.generate(profile))
+  end
 
   def accept_all_params
     params.permit!
