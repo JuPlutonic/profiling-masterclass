@@ -83,16 +83,18 @@ class ReportController < ApplicationController
 
   def select_sessions_of_user(user, sessions_array)
     # sessions_array.select { |session| session.user_id == user.id }
-    @sessions_of_user ||= sessions_array.group_by { |b| b.user_id }
+    @sessions_of_user ||= sessions_array.group_by(&:user_id)
     @sessions_of_user[user.id]
   end
 
+  # :reek:FeatureEnvy
   def stats_for_user(user, user_sessions)
+    duration_of_sessions = user_sessions.map(&:duration)
     { first_name: user.first_name,
       last_name: user.last_name,
       sessions_count: user_sessions.count,
-      total_time: "#{user_sessions.map(&:duration).sum} min.",
-      longest_session: "#{user_sessions.map(&:duration).max} min.",
+      total_time: "#{duration_of_sessions.sum} min.",
+      longest_session: "#{duration_of_sessions.max} min.",
       browsers: stats_browsers_part(user_sessions),
       used_ie: stats_browsers_part(user_sessions, used: 'ie'),
       used_only_chrome: stats_browsers_part(user_sessions, used: 'chrome'),

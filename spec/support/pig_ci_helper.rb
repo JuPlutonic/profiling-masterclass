@@ -9,5 +9,6 @@ PigCI.start do |config|
   config.thresholds.request_time = 5_000 # Milliseconds
 
   # Maximum database calls per a request
-  config.thresholds.database_request = 62 # For the month report (31 ~ 62)
+  config.thresholds.database_request = 62 # Report have linear time-complexity, we generate it for Month (31)
+  #                                          now it hasn't caching (2 requests)
 end if RSpec.configuration.files_to_run.count > 1
