@@ -6,9 +6,10 @@ require 'pry'
 # Profiling/testing for feedback-loop speed-up
 class FeedbackLoop
   THRESHOLD_METRIC_IN_SECONDS = 4 # see Web performance optimizations stats - https://wpostats.com
-  REPEATS = 3
+  REPEATS = 21
   APPROX_BUDGET = 0.15
   DATE_FOR_TEST_RESPONSES = '2021-12-12'.freeze
+  BAR = ('*' * 10).freeze
 
   def call
     check_correctness
@@ -25,40 +26,31 @@ class FeedbackLoop
   end
 
   # used by the "protect_from_degradation" test
+  # :reek:DuplicateMethodCall { max_calls: 2 }
   def calculate_metric
-    total_time = 0
-    REPEATS.times do
-      start = Time.now
-      get_response(DATE_FOR_TEST_RESPONSES)
-      finish = Time.now
-      total_time += finish - start
-    end
-    total_time / REPEATS
+    (0...REPEATS).collect { start = Time.now; get_response(DATE_FOR_TEST_RESPONSES); Time.now - start }.sum / REPEATS
+    # REPEATS.times.sum { start = Time.now; get_response(DATE_FOR_TEST_RESPONSES); Time.now - start } / REPEATS
   end
 
-  # update etalon with
+  # update etalon/standard with
   # http 'localhost:3000/report?start_date=2015-07-01&finish_date=2021-12-12' > lib/etalon.html
   def check_correctness
     response = get_response(DATE_FOR_TEST_RESPONSES)
     result_body = response.body[/<body?(.*?)<\/body>/m, 1]
     etalon_response = File.read('./lib/etalon.html')
-    # w/o CSRF token:
+    # w/o CSRF token, only body:
     etalon_body = etalon_response[/<body?(.*?)<\/body>/m, 1]
 
-    if result_body == etalon_body
-      puts '*' * 20 + 'Correctness test passed' + '*' * 20
-    else
-      puts '*' * 20 + 'Correctness test failed' + '*' * 20
-    end
+    puts BAR + "\t\tCorrectness test passed:#{result_body == etalon_body}\t\t" + BAR
   end
 
   def protect_from_degradation
     calculate_metric.tap do |current_metric|
       puts
       if current_metric > THRESHOLD_METRIC_IN_SECONDS
-        raise '*' * 10 + "Test on degradation: result worse than metric: #{current_metric} > #{THRESHOLD_METRIC_IN_SECONDS}" + '*' * 10
+        raise BAR + "Test on degradation: result worse tha n metric: #{current_metric} > #{THRESHOLD_METRIC_IN_SECONDS}" + BAR
       else
-        puts '*' * 10 + "Test has passed degradation test: #{current_metric} < #{THRESHOLD_METRIC_IN_SECONDS}" + '*' * 10
+        puts BAR + "Test has passed degradation test: #{current_metric} < #{THRESHOLD_METRIC_IN_SECONDS}" + BAR
       end
     end
   end
@@ -66,9 +58,9 @@ class FeedbackLoop
   def check_approx_budget(current_metric)
     puts
     if current_metric < APPROX_BUDGET
-      puts '*' * 10 + "Result is the gaps of APPROX_BUDGET: #{current_metric} < #{APPROX_BUDGET}" + '*' * 10
+      puts BAR + "\tResult is the gaps of APPROX_BUDGET:\t#{current_metric} < #{APPROX_BUDGET}" + BAR
     else
-      raise '*' * 10 + "Result is not in APPROX_BUDGET yet: #{current_metric} > #{APPROX_BUDGET}" + '*' * 10
+      raise BAR + "Result is not in APPROX_BUDGET yet:\t#{current_metric} > #{APPROX_BUDGET}" + BAR
     end
   end
 
