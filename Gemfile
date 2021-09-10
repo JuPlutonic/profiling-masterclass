@@ -36,13 +36,11 @@ gem 'bootsnap', '~> 1.8', require: false
 # DSL for declaring params and options of the initializer (https://dry-rb.org/gems/dry-initializer)
 # gem 'dry-initializer-rails'
 # Easily generate fake data (https://github.com/faker-ruby/faker)
-gem "faker", "~> 2.16"
+# gem "faker", "~> 2.16" # Used in db/seeds.rb
 # RSpec for Rails (https://github.com/rspec/rspec-rails)
 gem 'rspec-rails'
 # Performance testing matchers for RSpec (https://github.com/piotrmurach/rspec-benchmark)
 gem 'rspec-benchmark'
-# Fast Ruby profiler (https://github.com/ruby-prof/ruby-prof)
-gem 'ruby-prof'
 # ActiveModel validation for email. Including MX lookup and disposable email blacklist (https://github.com/micke/valid_email2)
 gem 'valid_email2'
 
@@ -56,6 +54,9 @@ group :development, :test do
   # A sampling call-stack profiler for ruby 2.2+ (http://github.com/tmm1/stackprof)
   gem 'stackprof'
 end
+
+# Fast Ruby profiler (https://github.com/ruby-prof/ruby-prof)
+gem 'ruby-prof' #  Tracing memory profiler. Better on production/staging!
 
 group :development do
   # Listen to file modifications (https://github.com/guard/listen)

@@ -2,13 +2,25 @@
 
 # Controller for report
 class ReportController < ApplicationController
-  around_action :profile_with_stackprof, only: :report
+  LOGGER_BAR = ('*' * 40).freeze
+  DEF_PARAMS_START_DATE = '2015-07-01'.freeze
+  DEF_PARAMS_END_DATE = '2021-12-12'.freeze
+
+  around_action :profile_with_stackprof, only: :report, if: -> { params[:profile] == 'json' }
+  around_action :wrap_in_mem_prof, only: :report, if: -> { params[:profile] == 'measure_mem' }
+  around_action :profile_with_ruby_prof, only: :report, if: -> { params[:profile] == 'ruby_prof' }
   before_action :accept_all_params
 
   def report
-    @start_date = Date.parse(params.fetch(:start_date, false) || '2015-07-01')
-    @finish_date = Date.parse(params.fetch(:finish_date, false) || '2021-12-12')
+    @start_date = Date.parse(params.fetch(:start_date, DEF_PARAMS_START_DATE))
+    @finish_date = Date.parse(params.fetch(:finish_date, DEF_PARAMS_END_DATE))
 
+=begin TODO: Refactor app in stream-style
+  In certain moment all 90MB of sessions DB table can be loader to memory
+    (with AR wrapping it's more). So let's implement records loading in batches.
+  An algorithm will extract all needed data from an batch,
+    data will be keept batch will be replaced with next batch.
+=end
     sessions_by_dates = Session.where(
       'date >= :start_date AND date <= :finish_date',
       start_date: @start_date,
@@ -17,13 +29,14 @@ class ReportController < ApplicationController
 
     # @unique_browsers_count = unique_browsers_count(sessions_by_dates)
 
+    sl = sessions_by_dates.pluck(:user_id).uniq
     users =
       User
-        .where(id: sessions_by_dates.pluck(:user_id))
+      .where(id: sl)
         .order(:id)
         .limit(30)
 
-    sessions = sessions_by_dates.where(user_id: users.pluck(:id))
+    sessions = sessions_by_dates.where(user_id: sl)
     @unique_browsers_count = unique_browsers_count(sessions)
 
     @total_users = users.count
@@ -42,10 +55,37 @@ class ReportController < ApplicationController
 
   # We will use visualization in a browser in flame-graph format https://speedscope.app
   def profile_with_stackprof(&block)
-    return block.call if params[:profile] != 'json'
-
+    # return block.call if params[:profile] != 'json'
     profile = StackProf.run(mode: :wall, raw: true, &block)
     File.write('tmp/stackprof.json', JSON.generate(profile))
+  end
+
+  # Legent: rss - Resident Set Size
+  # Amount of RAM in MB, assigned to process
+  def mem_usage
+    `ps -o rss= -p #{Process.pid}`.to_i / 1_024
+  end
+
+  def log_memory_usage(mem)
+    Rails.logger.info(LOGGER_BAR + "\n" + "#{mem} MB".rjust(96) + "\n" + LOGGER_BAR.rjust(129))
+  end
+
+  def wrap_in_mem_prof
+    GC.start(full_mark: true, immediate_sweep: true)
+    GC.disable
+    mem_before = mem_usage
+
+    yield
+
+    mem_after = mem_usage
+    log_memory_usage(mem_after - mem_before)
+  end
+
+  def profile_with_ruby_prof
+    RubyProf.measure_mode = RubyProf::MEMORY
+    profile = RubyProf.profile { yield }
+    printer = RubyProf::CallTreePrinter.new(profile)
+    printer.print(path: 'tmp', profile: 'rubyprof')
   end
 
   def accept_all_params

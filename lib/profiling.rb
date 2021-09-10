@@ -5,8 +5,8 @@ require 'pry'
 
 # Profiling/testing for feedback-loop speed-up
 class FeedbackLoop
-  # Worklock log: 4 -> 2 -> 1.3 -> 0.7
-  THRESHOLD_METRIC_IN_SECONDS = 0.7 # see Web performance optimizations stats - https://wpostats.com
+  # Worklock log: 4->2->1.3->0.7->bef. ruby_prof 0.3 (0.2prod) -> 0.2
+  THRESHOLD_METRIC_IN_SECONDS = 0.2 # see Web performance optimizations stats - https://wpostats.com
   REPEATS = 21
   APPROX_BUDGET = 0.15
   DATE_FOR_TEST_RESPONSES = '2021-12-12'.freeze
