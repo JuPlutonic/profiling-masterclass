@@ -15,11 +15,10 @@ class ReportController < ApplicationController
     @start_date = Date.parse(params.fetch(:start_date, DEF_PARAMS_START_DATE))
     @finish_date = Date.parse(params.fetch(:finish_date, DEF_PARAMS_END_DATE))
 
-=begin TODO: Refactor app in stream-style
-  In certain moment all 90MB of sessions DB table can be loader to memory
-    (with AR wrapping it's more). So let's implement records loading in batches.
-  An algorithm will extract all needed data from an batch,
-    data will be keept batch will be replaced with next batch.
+
+# Todo's TOPIC: Refactor sessions' loading in more "stream/thread"-style
+# TODO: In certain moment all 90MB (with AR wrappings it's more) of sessions DB table can be loaded to memory. So let's implement records loading in batches
+#   An algorithm will extract all needed data from a batch, data will be kept batch will be replaced with next batch
 =end
     sessions_by_dates = Session.where(
       'date >= :start_date AND date <= :finish_date',
@@ -42,7 +41,8 @@ class ReportController < ApplicationController
     @total_users = users.count
     @total_sessions = sessions.count
 
-    # users_array = select_valid_users(users) # TODO: now it is safe to add it (but seed more users/sessions)
+    # TODO: now it is safe to uncomment it (but we need to seed more users/sessions, gem valid_email2 alr. configured):
+    # users_array = select_valid_users(users)
     @users = []
 
     load_users(users).each do |user|
