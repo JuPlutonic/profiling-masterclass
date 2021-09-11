@@ -25,21 +25,6 @@ class ReportController < ApplicationController
     .order(:user_id, :id)
     .preload(:user)
 
-    # @unique_browsers_count = unique_browsers_count(sessions_by_dates)
-
-    # load_sessions_ids = sessions_by_dates.pluck(:user_id).uniq
-
-    # users =
-    #   User
-    #   .where(id: load_sessions_ids)
-    #     .order(:id)
-    #     .limit(30)
-
-    # sessions = sessions_by_dates.where(user_id: load_sessions_ids)
-
-    # @unique_browsers_count = unique_browsers_count(sessions)
-    # @total_users = users.count
-    # @total_sessions = sessions.count
     work(sessions)
   end
 
@@ -48,11 +33,6 @@ class ReportController < ApplicationController
   def accept_all_params
     params.permit!
   end
-
-  # def unique_browsers_count(sessions)
-  #   sessions.map(&:browser).uniq.count
-  #   # sessions.select(&:browser).distinct.count
-  # end
 
   # :reek:DuplicateMethodCall :reek:NilCheck
   def work(sessions)
@@ -95,27 +75,9 @@ class ReportController < ApplicationController
   ##
   ## auxiliary variables for #work
   ##
-  # def load_valid_users(users)
-  #   users.select(&:valid?)
-  # end
-
-  # def load_users(users)
-  #   users.to_a
-  # end
-
-  # def load_sessions(sessions)
-  #   sessions.to_a
-  # end
-
   def load_batch_of_sessions(sessions, batch_number:, size: SESSIONS_PER_USER)
     sessions.limit(size).offset(batch_number * size)
   end
-
-  # def select_sessions_of_user(user, sessions_array)
-  #   # sessions_array.select { |session| session.user_id == user.id }
-  #   @sessions_of_user ||= sessions_array.group_by(&:user_id)
-  #   @sessions_of_user[user.id]
-  # end
 
   def stats_for_user(user, user_sessions)
     @users << {}.merge(form_user_stats(user)).merge(form_user_sessions_stats(user_sessions))
@@ -136,15 +98,15 @@ class ReportController < ApplicationController
       sessions_count: user_sessions.count,
       total_time: "#{duration_of_sessions.sum} min.",
       longest_session: "#{duration_of_sessions.max} min.",
-      browsers: stats_browsers_part(browsers_list),
-      used_ie: stats_browsers_part(browsers_list, used: 'ie'),
-      used_only_chrome: stats_browsers_part(browsers_list, used: 'chrome'),
+      browsers: form_stats_browsers_part(browsers_list),
+      used_ie: form_stats_browsers_part(browsers_list, used: 'ie'),
+      used_only_chrome: form_stats_browsers_part(browsers_list, used: 'chrome'),
       dates: user_sessions.map(&:date).map(&:to_s).sort.uniq
     }
   end
 
   # :reek:ControlParameter
-  def stats_browsers_part(browsers_list, used: nil)
+  def form_stats_browsers_part(browsers_list, used: nil)
     return browsers_list.sort.uniq unless used
 
     case used
