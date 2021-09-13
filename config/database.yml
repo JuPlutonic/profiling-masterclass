@@ -17,6 +17,11 @@ test:
   database: mc_test
   host: localhost
 
+staging:
+  <<: *default
+  database: mc_production
+  host: localhost
+
 production:
   <<: *default
   database: mc_production

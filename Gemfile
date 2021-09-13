@@ -16,7 +16,7 @@ gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Integrate SassC-Ruby with Rails!
-gem 'sassc-rails', '~> 2.1'
+# gem 'sassc-rails', '~> 2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
@@ -51,12 +51,14 @@ group :development, :test do
   gem 'database_cleaner'
   # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
   gem 'pig-ci-rails'
-  # A sampling call-stack profiler for ruby 2.2+ (http://github.com/tmm1/stackprof)
-  gem 'stackprof'
 end
 
-# Fast Ruby profiler (https://github.com/ruby-prof/ruby-prof)
-gem 'ruby-prof' #  Tracing memory profiler. Better on production/staging!
+group :profiling do
+  # A sampling call-stack profiler for ruby 2.2+ (http://github.com/tmm1/stackprof)
+  gem 'stackprof'
+  # Fast Ruby profiler (https://github.com/ruby-prof/ruby-prof)
+  gem 'ruby-prof' #  Tracing memory profiler. Better on production/staging!
+end
 
 group :development do
   # Listen to file modifications (https://github.com/guard/listen)
