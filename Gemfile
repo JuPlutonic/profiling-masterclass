@@ -47,10 +47,12 @@ gem 'valid_email2'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # Strategies for cleaning databases.  Can be used to ensure a clean state for testing. (http://github.com/DatabaseCleaner/database_cleaner)
-  gem 'database_cleaner'
-  # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
-  gem 'pig-ci-rails'
+  # Use Pry as your rails console (https://github.com/rweng/pry-rails)
+  gem 'pry-rails'
+  # Walk the stack in a Pry session (https://github.com/pry/pry-stack_explorer)
+  gem 'pry-stack_explorer'
+  # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
+  gem 'pry-byebug'
 end
 
 group :profiling do
@@ -63,16 +65,17 @@ end
 group :development do
   # Listen to file modifications (https://github.com/guard/listen)
   gem 'listen', '~> 3.3'
-  # Use Pry as your rails console (https://github.com/rweng/pry-rails)
-  gem 'pry-rails'
-  # Walk the stack in a Pry session (https://github.com/pry/pry-stack_explorer)
-  gem 'pry-stack_explorer'
-  # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
-  gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   # A debugging tool for your Ruby on Rails applications. (https://github.com/rails/web-console)
   gem 'web-console'
+end
+
+group :test do
+  # Strategies for cleaning databases using ActiveRecord. Can be used to ensure a clean state for testing. (https://github.com/DatabaseCleaner/database_cleaner-active_record)
+  gem 'database_cleaner-active_record'
+  # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
+  gem 'pig-ci-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
