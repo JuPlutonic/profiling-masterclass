@@ -9,7 +9,7 @@ require_relative '../lib/report_builder_slow'
 #   config.include RSpec::Benchmark::Matchers
 # end
 
-describe ReportBuilderSlow do
+describe ReportBuilderSlow, pig_ci: false do
   before do
     File.write('payloads/data_18.txt', <<~DATA_FILE_CONTENT)
       user,0,Leida,Cira,0

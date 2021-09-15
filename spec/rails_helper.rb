@@ -5,6 +5,7 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'database_cleaner/active_record'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -20,7 +21,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -40,23 +41,27 @@ RSpec.configure do |config|
   # config.use_transactional_fixtures = true
   config.use_transactional_fixtures = false
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner[:active_record].clean_with(:truncation)
   end
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
+  config.before do
+    DatabaseCleaner[:active_record].strategy = :transaction
   end
 
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
+  # config.before(:each, js: true) do
+  #   DatabaseCleaner[:active_record].strategy = :truncation
+  # end
+
+  config.before do
+    DatabaseCleaner[:active_record].start
   end
 
-  config.before(:each) do
-    DatabaseCleaner.start
+  config.after do
+    DatabaseCleaner[:active_record].clean
   end
 
-  config.after(:each) do
-    DatabaseCleaner.clean
+  config.before(:each, type: :request) do
+    host! '0.0.0.0'
   end
 
   # You can uncomment this line to turn off ActiveRecord support entirely.

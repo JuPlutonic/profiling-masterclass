@@ -143,4 +143,4 @@ lib/*.html
 .rubocop_todo.yml
 
 # PigCI
-  /pig-ci
+/pig-ci

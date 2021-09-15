@@ -1,5 +1,5 @@
 RSpec.describe 'Rails.application' do
-  describe '#load_seed' do
+  describe '#load_seed', pig_ci: false do
     subject { Rails.application.load_seed }
 
     it do

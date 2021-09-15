@@ -37,11 +37,6 @@ gem 'bootsnap', '~> 1.8', require: false
 # gem 'dry-initializer-rails'
 # Easily generate fake data (https://github.com/faker-ruby/faker)
 # gem "faker", "~> 2.16" # Used in db/seeds.rb
-# RSpec for Rails (https://github.com/rspec/rspec-rails)
-gem 'rspec-rails'
-# Performance testing matchers for RSpec (https://github.com/piotrmurach/rspec-benchmark)
-gem 'rspec-benchmark'
-# ActiveModel validation for email. Including MX lookup and disposable email blacklist (https://github.com/micke/valid_email2)
 gem 'valid_email2'
 
 group :development, :test do
@@ -53,6 +48,11 @@ group :development, :test do
   gem 'pry-stack_explorer'
   # Fast debugging with Pry. (https://github.com/deivid-rodriguez/pry-byebug)
   gem 'pry-byebug'
+  # RSpec for Rails (https://github.com/rspec/rspec-rails)
+  gem 'rspec-rails'
+  # Performance testing matchers for RSpec (https://github.com/piotrmurach/rspec-benchmark)
+  gem 'rspec-benchmark'
+  # ActiveModel validation for email. Including MX lookup and disposable email blacklist (https://github.com/micke/valid_email2)
 end
 
 group :profiling do
@@ -72,7 +72,7 @@ group :development do
 end
 
 group :test do
-  # Strategies for cleaning databases using ActiveRecord. Can be used to ensure a clean state for testing. (https://github.com/DatabaseCleaner/database_cleaner-active_record)
+  # # Strategies for cleaning databases using ActiveRecord. Can be used to ensure a clean state for testing. (https://github.com/DatabaseCleaner/database_cleaner-active_record)
   gem 'database_cleaner-active_record'
   # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
   gem 'pig-ci-rails'
