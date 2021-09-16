@@ -61,3 +61,5 @@ Second: run `ruby lib/profiling.rb` to see did those changes were a source of de
 * dont forget about profiling tools with degradation testing
 
 * add changed 'fast' report builder to Minitest/RSpec and run benchmarking test
+
+* test MB threshold in PigCI by adding parameter (more days) to the request spec
