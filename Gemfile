@@ -63,6 +63,8 @@ group :profiling do
 end
 
 group :development do
+  # Benchmarks designed to performance test your ENTIRE site (https://github.com/schneems/derailed_benchmarks)
+  gem 'derailed_benchmarks' # , require: false
   # Listen to file modifications (https://github.com/guard/listen)
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
