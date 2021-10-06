@@ -41,7 +41,7 @@ module ApplicationHelper
   # Legent: rss - Resident Set Size
   # Amount of RAM in MB, assigned to process
   def self.mem_usage
-    `ps -o rss= -p #{Process.pid}`.to_i / 1_024
+    `ps -o rss= -p #{Process.pid}`.to_i / 1_024 # Better than KBs and #{$$}
   end
 
   def self.log_memory_usage(mem)
