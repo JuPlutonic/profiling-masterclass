@@ -14,7 +14,7 @@ gem 'rails', '~> 6.1'
 # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/] (https://github.com/ged/ruby-pg)
 gem 'pg'
 # Use Puma as the app server
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.5'
 # Integrate SassC-Ruby with Rails!
 # gem 'sassc-rails', '~> 2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
