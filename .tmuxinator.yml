@@ -3,7 +3,7 @@ name: mciapp
 root: ~/optimiz/master_class_1
 pre_window: >
   promote ~/optimiz/master_class_1/.env.development.local &&
-  rbenv global 3.0.2
+  rbenv global 3.0.4
 windows:
   - mci_wrk:
       layout: main-vertical
