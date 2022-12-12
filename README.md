@@ -98,7 +98,7 @@ or to generate SVG image add to that report forming url
 >
 > * change payloads/data_18.txt with payloads/data_6000.txt
 >
->   - don't forget to change use postfix "\_small" with "\_big" for report's file name, see the `db_file_io.rb` file
+>   - don't forget to change postfix "\_small" with "\_big" for report's file name, see the `db_file_io.rb` file
 >
 > * add changed "faster" report builder to Minitest/RSpec and run benchmarking test
 >
