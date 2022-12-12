@@ -8,7 +8,8 @@ class ReportController < ApplicationController
   SESSIONS_PER_USER = 1_000
   BATCH_SIZE = 30_000
 
-  around_action :profile_with_stackprof, only: :report, if: -> { params[:profile] == 'json' }
+  around_action :profile_with_stackprof_json, only: :report, if: -> { params[:profile] == 'json' }
+  around_action :profile_with_stackprof_raw, only: :report, if: -> { params[:profile] == 'raw' }
   around_action :wrap_in_mem_prof, only: :report, if: -> { params[:profile] == 'measure_mem' }
   around_action :profile_with_ruby_prof, only: :report, if: -> { params[:profile] == 'ruby_prof' }
   before_action :accept_all_params
@@ -64,8 +65,8 @@ class ReportController < ApplicationController
         browsers_set << session.browser
         @total_sessions += 1
       end
-      last_session_flag = Session.last.id == user_sessions.last&.id
-      stats_for_user(prev_user, user_sessions) if last_session_flag
+      last_session_flag = Session.last&.id == user_sessions.last&.id
+      user_sessions.present? and last_session_flag and stats_for_user(prev_user, user_sessions)
       break if total_users_in_batch? || last_session_flag
     end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/hash_with_indifferent_access'
-# require 'faker'
+require 'faker'
 
 class CreateTestUsers
   AGE_OF_MAJORITY = 18
@@ -64,6 +64,7 @@ end
 
 ###########################
 # Methods used in load_seed
+#
 # def form_user
 #   first_name, mid, last_name = Faker::Name.name_with_middle.split
 #   first_name = mid if first_name.end_with?('.')
@@ -101,6 +102,7 @@ def select_browser
 end
 
 # Seeds 100_000 new users and their into the DB
+#
 # def load_seed
 #   collect_sessions = []
 #   100_000.times do

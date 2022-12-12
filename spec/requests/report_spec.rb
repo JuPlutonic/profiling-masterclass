@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '/report', type: :request do
   before do
     Rails.application.load_seed
-    # or load with lib/report_builder_N.rb
+    # or load with app/lib/N_report_builder.rb
   end
 
   describe 'GET /' do

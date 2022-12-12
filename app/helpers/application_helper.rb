@@ -1,10 +1,13 @@
 module ApplicationHelper
   LOGGER_BAR = ('*' * 40).freeze
 
-  # We will use visualization in a browser in flame-graph format https://speedscope.app
-  def self.profile_with_stackprof(&block)
+  # We will use visualization of FlameGraph in json format (for https://speedscope.app)
+  #   or in raw format
+  def self.profile_with_stackprof(json:, &block)
     profile = StackProf.run(mode: :wall, raw: true, &block)
-    File.write('tmp/stackprof.json', JSON.generate(profile))
+    return File.write('tmp/stackprof.json', JSON.generate(profile)) if json
+
+    File.write('tmp/stackprof.raw',  profile)
   end
 
   def self.wrap_in_mem_prof
@@ -22,8 +25,12 @@ module ApplicationHelper
     printer.print(path: 'tmp', profile: 'rubyprof')
   end
 
-  def profile_with_stackprof(&block)
-    ApplicationHelper.profile_with_stackprof(&block)
+  def profile_with_stackprof_json(&block)
+    ApplicationHelper.profile_with_stackprof(json: true, &block)
+  end
+
+  def profile_with_stackprof_raw(&block)
+    ApplicationHelper.profile_with_stackprof(json: false, &block)
   end
 
   def wrap_in_mem_prof(&block)
@@ -38,8 +45,7 @@ module ApplicationHelper
 
   private
 
-  # Legent: rss - Resident Set Size
-  # Amount of RAM in MB, assigned to process
+  # Legend: rss - Resident Set Size (amount of RAM in MB, assigned to process)
   def self.mem_usage
     `ps -o rss= -p #{Process.pid}`.to_i / 1_024 # Better than KBs and #{$$}
   end
