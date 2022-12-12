@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 require 'json'
-require_relative '../lib/report_builder_slow'
+require_relative '../app/lib/slow_report_builder'
 # require 'rspec-benchmark'
 
 # RSpec.configure do |config|
 #   config.include RSpec::Benchmark::Matchers
 # end
 
-describe ReportBuilderSlow, pig_ci: false do
+describe SlowReportBuilder, pig_ci: false do
   before do
     File.write('payloads/data_18.txt', <<~DATA_FILE_CONTENT)
       user,0,Leida,Cira,0
