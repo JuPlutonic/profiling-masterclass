@@ -10,7 +10,7 @@ end
 ruby '~> 3.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 6.1', '>= 6.1.7.8'
 # Pg is the Ruby interface to the {PostgreSQL RDBMS}[http://www.postgresql.org/] (https://github.com/ged/ruby-pg)
 gem 'pg'
 # Use Puma as the app server
@@ -76,8 +76,8 @@ end
 group :test do
   # # Strategies for cleaning databases using ActiveRecord. Can be used to ensure a clean state for testing. (https://github.com/DatabaseCleaner/database_cleaner-active_record)
   gem 'database_cleaner-active_record'
-  # Monitor your Ruby Applications metrics via your test suite. (https://github.com/PigCI/pig-ci-rails)
-  gem 'pig-ci-rails'
+  # Monitor your Ruby Applications metrics via your test suite.
+  gem ''pig-ci-rails', github: 'JuPlutonic/pig-ci-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
